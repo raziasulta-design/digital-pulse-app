@@ -17,20 +17,50 @@ export default function Home() {
     setView("dashboard");
   };
 
+  const scrollToSection = (id: string) => {
+    if (view !== "home") {
+      setView("home");
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        el?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      const el = document.getElementById(id);
+      el?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <main className="min-h-screen bg-neutral-950 text-white flex flex-col justify-between">
-      {/* Top Navbar */}
-      <header className="w-full border-b border-neutral-800/80 bg-neutral-900/40 backdrop-blur-md px-6 py-4 flex items-center justify-between">
+    <main className="min-h-screen bg-neutral-950 text-white flex flex-col justify-between scroll-smooth">
+      {/* Top Navbar with all Menus */}
+      <header className="sticky top-0 z-40 w-full border-b border-neutral-800/80 bg-neutral-950/80 backdrop-blur-md px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="h-8 w-8 rounded-lg bg-white text-black font-black flex items-center justify-center text-sm shadow-md">
             DP
           </div>
           <span className="font-bold tracking-wide text-lg text-white">Digital Pulse</span>
-          <span className="text-xs px-2 py-0.5 rounded-full border border-neutral-700 bg-neutral-800 text-neutral-300">
-            v1.0.0
+          <span className="text-xs px-2 py-0.5 rounded-full border border-neutral-800 bg-neutral-900 text-neutral-400">
+            v2.4
           </span>
         </div>
 
+        {/* Navigation Menus */}
+        <nav className="hidden md:flex items-center gap-8 text-sm text-neutral-400">
+          <button onClick={() => scrollToSection("services")} className="hover:text-white transition">
+            Services
+          </button>
+          <button onClick={() => scrollToSection("analytics")} className="hover:text-white transition">
+            Analytics
+          </button>
+          <button onClick={() => scrollToSection("features")} className="hover:text-white transition">
+            Features
+          </button>
+          <button onClick={() => scrollToSection("docs")} className="hover:text-white transition">
+            Docs
+          </button>
+        </nav>
+
+        {/* Right Action Buttons */}
         <div className="flex items-center gap-3">
           {view === "dashboard" ? (
             <button
@@ -40,20 +70,29 @@ export default function Home() {
               Back to Home
             </button>
           ) : (
-            <button
-              onClick={() => setView("dashboard")}
-              className="text-xs sm:text-sm px-3 py-1.5 rounded-lg border border-neutral-700 hover:bg-neutral-800 transition"
-            >
-              Open Dashboard
-            </button>
+            <>
+              <button
+                onClick={() => setShowModal(true)}
+                className="text-xs sm:text-sm text-neutral-400 hover:text-white transition px-2 py-1"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => setShowModal(true)}
+                className="text-xs sm:text-sm px-3.5 py-1.5 rounded-lg bg-white text-black font-medium hover:bg-neutral-200 transition"
+              >
+                Get Started
+              </button>
+            </>
           )}
         </div>
       </header>
 
-      {/* Main Body */}
+      {/* Main Page View */}
       {view === "home" ? (
-        <section className="flex-1 flex flex-col items-center justify-center px-6 py-16">
-          <div className="max-w-3xl text-center space-y-6">
+        <div className="flex-1 flex flex-col items-center">
+          {/* Hero Section */}
+          <section className="w-full max-w-4xl text-center space-y-6 px-6 py-20">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-800 bg-neutral-900/60 text-xs text-neutral-400">
               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
               Digital Pulse Platform Active
@@ -70,36 +109,94 @@ export default function Home() {
             <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
               <button
                 onClick={() => setShowModal(true)}
-                className="px-6 py-3 rounded-lg bg-white text-black font-semibold hover:bg-neutral-200 transition-all cursor-pointer shadow-lg active:scale-95"
+                className="px-6 py-3 rounded-lg bg-white text-black font-semibold hover:bg-neutral-200 transition shadow-lg"
               >
-                Get Started
+                Get Started →
               </button>
               <button
-                onClick={() => setView("dashboard")}
-                className="px-6 py-3 rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800 text-white font-medium transition-all cursor-pointer active:scale-95"
+                onClick={() => scrollToSection("analytics")}
+                className="px-6 py-3 rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800 text-white font-medium transition flex items-center gap-2"
               >
-                View Analytics
+                <span className="text-emerald-400">📊</span> View Analytics
               </button>
             </div>
+          </section>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-10 text-left">
-              <div className="p-4 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-2">
-                <h3 className="font-semibold text-white">Fast Setup</h3>
+          {/* Features Section */}
+          <section id="features" className="w-full max-w-5xl px-6 py-12 border-t border-neutral-900">
+            <h3 className="text-xl font-bold mb-6 text-neutral-200">Core Features</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-2">
+                <h4 className="font-semibold text-white">Fast Setup</h4>
                 <p className="text-sm text-neutral-400">Integrated database and hosting directly via Vercel and Supabase.</p>
               </div>
-              <div className="p-4 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-2">
-                <h3 className="font-semibold text-white">Automated Sync</h3>
+              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-2">
+                <h4 className="font-semibold text-white">Automated Sync</h4>
                 <p className="text-sm text-neutral-400">Real-time data feeds, activity logs, and seamless workflow execution.</p>
               </div>
-              <div className="p-4 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-2">
-                <h3 className="font-semibold text-white">Client Portal</h3>
+              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-2">
+                <h4 className="font-semibold text-white">Client Portal</h4>
                 <p className="text-sm text-neutral-400">Dedicated dashboard for team members and platform administrators.</p>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+
+          {/* Analytics Section */}
+          <section id="analytics" className="w-full max-w-5xl px-6 py-12 border-t border-neutral-900">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-xl font-bold text-neutral-200">Live Analytics</h3>
+                <p className="text-sm text-neutral-400">Real-time telemetry and infrastructure performance.</p>
+              </div>
+              <button
+                onClick={() => setView("dashboard")}
+                className="text-xs px-3 py-1.5 rounded-lg border border-neutral-700 bg-neutral-900 hover:bg-neutral-800 text-neutral-300"
+              >
+                Open Full Dashboard ↗
+              </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/50">
+                <p className="text-xs text-neutral-400 uppercase font-medium">Uptime</p>
+                <div className="text-3xl font-black text-white mt-1">99.98%</div>
+                <span className="text-xs text-emerald-400">System Healthy</span>
+              </div>
+              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/50">
+                <p className="text-xs text-neutral-400 uppercase font-medium">Daily Queries</p>
+                <div className="text-3xl font-black text-white mt-1">42.8k</div>
+                <span className="text-xs text-neutral-400">Across all endpoints</span>
+              </div>
+              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/50">
+                <p className="text-xs text-neutral-400 uppercase font-medium">Avg Latency</p>
+                <div className="text-3xl font-black text-white mt-1">18ms</div>
+                <span className="text-xs text-emerald-400">Edge verified</span>
+              </div>
+            </div>
+          </section>
+
+          {/* Services Section */}
+          <section id="services" className="w-full max-w-5xl px-6 py-12 border-t border-neutral-900">
+            <h3 className="text-xl font-bold mb-4 text-neutral-200">Services</h3>
+            <div className="p-6 rounded-xl border border-neutral-800 bg-neutral-900/30 text-sm text-neutral-400 space-y-2">
+              <p>• Automated CRM & Client Lifecycle Integration</p>
+              <p>• Cloud Database Sync & Authentication via Supabase</p>
+              <p>• Edge Performance Hosting & Deployments via Vercel</p>
+            </div>
+          </section>
+
+          {/* Docs Section */}
+          <section id="docs" className="w-full max-w-5xl px-6 py-12 border-t border-neutral-900 mb-10">
+            <h3 className="text-xl font-bold mb-4 text-neutral-200">Documentation</h3>
+            <p className="text-sm text-neutral-400">
+              Need technical documentation or help setting up? Contact administrator at{" "}
+              <a href="mailto:mastermindai.25@gmail.com" className="text-white underline">
+                mastermindai.25@gmail.com
+              </a>.
+            </p>
+          </section>
+        </div>
       ) : (
-        /* Dashboard Portal View */
+        /* Full Dashboard View */
         <section className="flex-1 max-w-6xl w-full mx-auto px-6 py-10 space-y-8">
           <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-neutral-800">
             <div>
@@ -115,7 +212,6 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Metric Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/50 space-y-2">
               <p className="text-xs text-neutral-400 uppercase font-medium">System Uptime</p>
@@ -133,38 +229,20 @@ export default function Home() {
               <span className="inline-block text-xs text-emerald-400">Avg response: 18ms</span>
             </div>
           </div>
-
-          {/* Workflow Status Box */}
-          <div className="p-6 rounded-xl border border-neutral-800 bg-neutral-900/30 space-y-4">
-            <h4 className="text-lg font-bold text-white">Connected Services</h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex items-center justify-between p-3.5 rounded-lg border border-neutral-800 bg-neutral-950">
-                <span className="text-sm font-medium">Vercel Production Edge</span>
-                <span className="text-xs px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-semibold">Active</span>
-              </div>
-              <div className="flex items-center justify-between p-3.5 rounded-lg border border-neutral-800 bg-neutral-950">
-                <span className="text-sm font-medium">Supabase Database & Auth</span>
-                <span className="text-xs px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-semibold">Synced</span>
-              </div>
-            </div>
-          </div>
         </section>
       )}
 
       {/* Onboarding Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md rounded-2xl border border-neutral-800 bg-neutral-900 p-6 shadow-2xl space-y-5 text-left animate-in fade-in zoom-in-95 duration-150">
+          <div className="w-full max-w-md rounded-2xl border border-neutral-800 bg-neutral-900 p-6 shadow-2xl space-y-5 text-left">
             <div className="flex items-start justify-between">
               <div>
                 <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Fast-Track Setup</span>
                 <h3 className="text-2xl font-bold text-white mt-1">Client Onboarding Portal</h3>
                 <p className="text-xs text-neutral-400">Configure your Digital Pulse workspace.</p>
               </div>
-              <button
-                onClick={() => setShowModal(false)}
-                className="text-neutral-400 hover:text-white text-lg p-1"
-              >
+              <button onClick={() => setShowModal(false)} className="text-neutral-400 hover:text-white text-lg p-1">
                 ✕
               </button>
             </div>
@@ -205,7 +283,7 @@ export default function Home() {
 
               <button
                 type="submit"
-                className="w-full py-3 rounded-lg bg-white text-black font-semibold hover:bg-neutral-200 transition active:scale-95 text-sm mt-2 cursor-pointer shadow-lg"
+                className="w-full py-3 rounded-lg bg-white text-black font-semibold hover:bg-neutral-200 transition text-sm mt-2 cursor-pointer shadow-lg"
               >
                 Complete Setup & Launch
               </button>
