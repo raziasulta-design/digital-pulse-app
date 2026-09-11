@@ -1,499 +1,468 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 interface Post {
   id: string;
+  title: string;
   content: string;
-  type: "Post" | "Reel" | "Photo";
+  type: "Post" | "Reel" | "Photo" | "Notice";
   date: string;
   likes: number;
   comments: number;
   shares: number;
+  tags: string[];
 }
 
 export default function Home() {
-  const [showModal, setShowModal] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [view, setView] = useState<"home" | "dashboard">("home");
-  const [activeTab, setActiveTab] = useState<"social" | "overview">("social");
+  // Search & Navigation States
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeTab, setActiveTab] = useState<"feed" | "services" | "analytics" | "contact">("feed");
+  const [selectedType, setSelectedType] = useState<string>("All");
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
-  const [formData, setFormData] = useState({
-    name: "Digital Pulse BD",
-    email: "mastermindai.25@gmail.com",
-    project: "Digital Pulse Portal",
-  });
+  // New Post Form State
+  const [newPostTitle, setNewPostTitle] = useState("");
+  const [newPostContent, setNewPostContent] = useState("");
+  const [newPostType, setNewPostType] = useState<"Post" | "Reel" | "Photo" | "Notice">("Post");
+  const [newPostTags, setNewPostTags] = useState("");
 
+  // Post Data / Facebook Archive
   const [posts, setPosts] = useState<Post[]>([
     {
       id: "1",
-      content: "Welcome to the official Digital Pulse feed! Automated system connected with Next.js & Supabase.",
+      title: "Digital Pulse Platform Launch",
+      content: "স্বাগতম Digital Pulse BD-তে! আমাদের অটোমেটেড ডিজিটাল ওয়ার্কফ্লো, সোশ্যাল মিডিয়া ইন্টিগ্রেশন এবং ক্লাউড ডাটাবেজ সিস্টেম এখন পুরোদমে লাইভ।",
       type: "Post",
       date: "Sep 11, 2026",
-      likes: 85,
-      comments: 20,
-      shares: 8,
+      likes: 128,
+      comments: 34,
+      shares: 15,
+      tags: ["DigitalPulse", "Launch", "NextJS", "Supabase"],
     },
     {
       id: "2",
-      content: "New creative assets and branding tools now synced. Check out the latest updates on our portal!",
+      title: "New Creative Visual Templates & 3D Logo Intro",
+      content: "আমাদের ফেসবুক পেজে নতুন ব্যানার ডিজাইন, মোশন গ্রাফিক্স এবং রিলস টেমপ্লেট উন্মোচন করা হয়েছে। আপনার ব্র্যান্ডকে আরও আকর্ষণীয় করতে আমাদের সার্ভিসগুলো এক্সপ্লোর করুন।",
       type: "Reel",
       date: "Sep 09, 2026",
-      likes: 140,
-      comments: 32,
-      shares: 25,
+      likes: 210,
+      comments: 48,
+      shares: 39,
+      tags: ["Reel", "Branding", "Creative", "Motion"],
+    },
+    {
+      id: "3",
+      title: "Automated Data Processing & Workflow Systems",
+      content: "ডাটাবেজ ম্যানেজমেন্ট, রিয়েল-টাইম এপিআই সিঙ্ক এবং মেটা অটোমেশন নিয়ে নতুন সল্যুশন চালু হয়েছে। যেকোনো তথ্যের জন্য সরাসরি আমাদের সাথে যোগাযোগ করুন।",
+      type: "Notice",
+      date: "Sep 05, 2026",
+      likes: 95,
+      comments: 18,
+      shares: 11,
+      tags: ["DataSync", "Automation", "Database"],
     },
   ]);
 
-  const [newPostText, setNewPostText] = useState("");
-  const [newPostType, setNewPostType] = useState<"Post" | "Reel" | "Photo">("Post");
-
-  const handleLaunch = (e: React.FormEvent) => {
+  // Handle Adding New Post
+  const handleCreatePost = (e: React.FormEvent) => {
     e.preventDefault();
-    setShowModal(false);
-    setView("dashboard");
-  };
+    if (!newPostContent.trim()) return;
 
-  const handleAddPost = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newPostText.trim()) return;
+    const parsedTags = newPostTags
+      .split(",")
+      .map((t) => t.trim().replace(/^#/, ""))
+      .filter((t) => t.length > 0);
 
-    const newPost: Post = {
+    const createdPost: Post = {
       id: Date.now().toString(),
-      content: newPostText,
+      title: newPostTitle.trim() || "Digital Pulse Announcement",
+      content: newPostContent,
       type: newPostType,
       date: "Just now",
-      likes: 0,
+      likes: 1,
       comments: 0,
       shares: 0,
+      tags: parsedTags.length > 0 ? parsedTags : ["DigitalPulse"],
     };
 
-    setPosts([newPost, ...posts]);
-    setNewPostText("");
+    setPosts([createdPost, ...posts]);
+    setNewPostTitle("");
+    setNewPostContent("");
+    setNewPostTags("");
+    setShowCreateModal(false);
+    setActiveTab("feed");
   };
 
-  const scrollToSection = (id: string) => {
-    setMobileMenuOpen(false);
-    if (view !== "home") {
-      setView("home");
-      setTimeout(() => {
-        const el = document.getElementById(id);
-        el?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
-    } else {
-      const el = document.getElementById(id);
-      el?.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  // Instant Live Search Filter
+  const filteredPosts = useMemo(() => {
+    return posts.filter((post) => {
+      const query = searchQuery.toLowerCase();
+      const matchesSearch =
+        post.title.toLowerCase().includes(query) ||
+        post.content.toLowerCase().includes(query) ||
+        post.tags.some((tag) => tag.toLowerCase().includes(query)) ||
+        post.type.toLowerCase().includes(query);
+
+      const matchesType = selectedType === "All" || post.type === selectedType;
+      return matchesSearch && matchesType;
+    });
+  }, [posts, searchQuery, selectedType]);
 
   return (
-    <main className="min-h-screen bg-neutral-950 text-white flex flex-col justify-between scroll-smooth">
+    <main className="min-h-screen bg-neutral-950 text-white flex flex-col justify-between">
       {/* Top Navbar */}
-      <header className="sticky top-0 z-40 w-full border-b border-neutral-800 bg-neutral-950/90 backdrop-blur-md px-4 sm:px-6 py-3.5 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-lg bg-white text-black font-black flex items-center justify-center text-sm shadow-md">
-            DP
+      <header className="sticky top-0 z-40 w-full border-b border-neutral-800/80 bg-neutral-950/90 backdrop-blur-md px-4 sm:px-6 py-3">
+        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+          {/* Brand Logo */}
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-blue-600 to-emerald-400 text-white font-black flex items-center justify-center text-sm shadow-lg">
+              DP
+            </div>
+            <div>
+              <span className="font-bold tracking-tight text-base sm:text-lg text-white block leading-tight">
+                Digital Pulse
+              </span>
+              <span className="text-[10px] text-emerald-400 font-medium">Official Portal & Feed</span>
+            </div>
           </div>
-          <span className="font-bold tracking-wide text-base sm:text-lg text-white">Digital Pulse</span>
-          <span className="text-[10px] px-2 py-0.5 rounded-full border border-neutral-800 bg-neutral-900 text-neutral-400">
-            v2.5
-          </span>
+
+          {/* Search Box in Navbar */}
+          <div className="flex-1 max-w-xs sm:max-w-sm order-3 sm:order-2 w-full sm:w-auto">
+            <div className="relative">
+              <span className="absolute inset-y-0 left-3 flex items-center text-neutral-500 text-sm">🔍</span>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="পোস্ট, রিলস বা ট্যাগ সার্চ করুন..."
+                className="w-full pl-9 pr-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-xs sm:text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-blue-500 transition"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute inset-y-0 right-2.5 flex items-center text-neutral-400 hover:text-white text-xs"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* New Post Button */}
+          <div className="order-2 sm:order-3 flex items-center gap-2">
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 shadow-md active:scale-95 cursor-pointer"
+            >
+              <span>＋</span>
+              <span>পোস্ট দিন</span>
+            </button>
+          </div>
         </div>
 
-        {/* Desktop Navbar Menus */}
-        <nav className="hidden md:flex items-center gap-6 text-sm text-neutral-400">
-          <button onClick={() => scrollToSection("services")} className="hover:text-white transition">
-            Services
-          </button>
-          <button onClick={() => scrollToSection("analytics")} className="hover:text-white transition">
-            Analytics
-          </button>
-          <button onClick={() => scrollToSection("features")} className="hover:text-white transition">
-            Features
-          </button>
-          <button onClick={() => scrollToSection("docs")} className="hover:text-white transition">
-            Docs
-          </button>
-        </nav>
-
-        {/* Action Buttons & Mobile Hamburger */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {view === "dashboard" ? (
-            <button
-              onClick={() => setView("home")}
-              className="text-xs px-3 py-1.5 rounded-lg border border-neutral-700 hover:bg-neutral-800 transition"
-            >
-              Back to Home
-            </button>
-          ) : (
-            <>
-              <button
-                onClick={() => setView("dashboard")}
-                className="text-xs text-neutral-300 hover:text-white px-2.5 py-1.5 rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800 transition"
-              >
-                Feed Portal
-              </button>
-              <button
-                onClick={() => setShowModal(true)}
-                className="text-xs px-3 py-1.5 rounded-lg bg-white text-black font-semibold hover:bg-neutral-200 transition"
-              >
-                Get Started
-              </button>
-            </>
-          )}
-
-          {/* Mobile Menu Trigger Button */}
+        {/* Tab Menus */}
+        <div className="max-w-6xl mx-auto flex items-center gap-1 sm:gap-2 mt-3 pt-2 border-t border-neutral-900 overflow-x-auto text-xs sm:text-sm">
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 rounded-lg border border-neutral-800 text-neutral-400 hover:text-white"
-            aria-label="Toggle Menu"
+            onClick={() => setActiveTab("feed")}
+            className={`px-3 py-1.5 rounded-lg font-medium transition whitespace-nowrap ${
+              activeTab === "feed"
+                ? "bg-white text-black font-semibold"
+                : "text-neutral-400 hover:text-white hover:bg-neutral-900"
+            }`}
           >
-            {mobileMenuOpen ? "✕" : "☰"}
+            📱 FB Feeds ({posts.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("services")}
+            className={`px-3 py-1.5 rounded-lg font-medium transition whitespace-nowrap ${
+              activeTab === "services"
+                ? "bg-white text-black font-semibold"
+                : "text-neutral-400 hover:text-white hover:bg-neutral-900"
+            }`}
+          >
+            ⚡ Services
+          </button>
+          <button
+            onClick={() => setActiveTab("analytics")}
+            className={`px-3 py-1.5 rounded-lg font-medium transition whitespace-nowrap ${
+              activeTab === "analytics"
+                ? "bg-white text-black font-semibold"
+                : "text-neutral-400 hover:text-white hover:bg-neutral-900"
+            }`}
+          >
+            📊 Analytics
+          </button>
+          <button
+            onClick={() => setActiveTab("contact")}
+            className={`px-3 py-1.5 rounded-lg font-medium transition whitespace-nowrap ${
+              activeTab === "contact"
+                ? "bg-white text-black font-semibold"
+                : "text-neutral-400 hover:text-white hover:bg-neutral-900"
+            }`}
+          >
+            ✉️ Contact
           </button>
         </div>
       </header>
 
-      {/* Mobile Dropdown Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden w-full border-b border-neutral-800 bg-neutral-900/95 px-6 py-4 flex flex-col gap-3 text-sm text-neutral-300">
-          <button onClick={() => scrollToSection("services")} className="text-left py-1 hover:text-white">
-            Services
-          </button>
-          <button onClick={() => scrollToSection("analytics")} className="text-left py-1 hover:text-white">
-            Analytics
-          </button>
-          <button onClick={() => scrollToSection("features")} className="text-left py-1 hover:text-white">
-            Features
-          </button>
-          <button onClick={() => scrollToSection("docs")} className="text-left py-1 hover:text-white">
-            Docs
-          </button>
-        </div>
-      )}
+      {/* Main Content Area */}
+      <section className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6">
+        {/* TAB 1: FEED & SEARCH RESULTS */}
+        {activeTab === "feed" && (
+          <div className="space-y-6">
+            {/* Filter Badges */}
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center gap-1.5 text-xs">
+                {["All", "Post", "Reel", "Notice"].map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setSelectedType(type)}
+                    className={`px-3 py-1 rounded-full border transition ${
+                      selectedType === type
+                        ? "bg-blue-600 border-blue-500 text-white font-medium"
+                        : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-white"
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
 
-      {/* Home View */}
-      {view === "home" ? (
-        <div className="flex-1 flex flex-col items-center">
-          <section className="w-full max-w-4xl text-center space-y-6 px-6 py-16 sm:py-20">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-800 bg-neutral-900/60 text-xs text-neutral-400">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              Digital Pulse Platform Active
+              {searchQuery && (
+                <span className="text-xs text-neutral-400">
+                  Search results for: <span className="text-white font-semibold">"{searchQuery}"</span> (
+                  {filteredPosts.length} found)
+                </span>
+              )}
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-white via-neutral-200 to-neutral-500 bg-clip-text text-transparent">
-              Welcome to Digital Pulse
-            </h1>
-
-            <p className="text-sm sm:text-base text-neutral-400 max-w-xl mx-auto leading-relaxed">
-              Centralized hub for operations, client onboarding, and Facebook feed archiving powered by Next.js and Supabase.
-            </p>
-
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-              <button
-                onClick={() => setView("dashboard")}
-                className="px-6 py-3 rounded-lg bg-white text-black font-semibold hover:bg-neutral-200 transition shadow-lg text-sm"
-              >
-                Open Social Portal →
-              </button>
-              <button
-                onClick={() => scrollToSection("analytics")}
-                className="px-6 py-3 rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800 text-white font-medium transition flex items-center gap-2 text-sm"
-              >
-                <span className="text-emerald-400">📊</span> View Analytics
-              </button>
-            </div>
-          </section>
-
-          {/* Features */}
-          <section id="features" className="w-full max-w-5xl px-6 py-12 border-t border-neutral-900">
-            <h3 className="text-lg sm:text-xl font-bold mb-6 text-neutral-200">Core Architecture</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-2">
-                <h4 className="font-semibold text-white">Social Sync Hub</h4>
-                <p className="text-xs sm:text-sm text-neutral-400">Auto stream and archive your Facebook posts, reels, and photos.</p>
+            {/* Posts Feed Grid */}
+            {filteredPosts.length === 0 ? (
+              <div className="text-center py-16 border border-dashed border-neutral-800 rounded-2xl bg-neutral-900/20">
+                <p className="text-base text-neutral-300 font-medium">কোনো পোস্ট বা কনটেন্ট খুঁজে পাওয়া যায়নি!</p>
+                <p className="text-xs text-neutral-500 mt-1">অন্য কোনো শব্দ লিখে সার্চ করে দেখুন অথবা নতুন পোস্ট যোগ করুন।</p>
+                <button
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSelectedType("All");
+                  }}
+                  className="mt-4 px-4 py-1.5 rounded-lg bg-neutral-800 text-xs text-white hover:bg-neutral-700"
+                >
+                  ফিল্টার রিসেট করুন
+                </button>
               </div>
-              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-2">
-                <h4 className="font-semibold text-white">Automated Pipelines</h4>
-                <p className="text-xs sm:text-sm text-neutral-400">Cloud workflows save every post directly into Supabase.</p>
-              </div>
-              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-2">
-                <h4 className="font-semibold text-white">Dedicated Portal</h4>
-                <p className="text-xs sm:text-sm text-neutral-400">Control center for admins to manage feeds and platform metrics.</p>
-              </div>
-            </div>
-          </section>
-
-          {/* Analytics */}
-          <section id="analytics" className="w-full max-w-5xl px-6 py-12 border-t border-neutral-900">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h3 className="text-lg sm:text-xl font-bold text-neutral-200">Live Telemetry</h3>
-                <p className="text-xs sm:text-sm text-neutral-400">Real-time infrastructure and sync status.</p>
-              </div>
-              <button
-                onClick={() => setView("dashboard")}
-                className="text-xs px-3 py-1.5 rounded-lg border border-neutral-700 bg-neutral-900 hover:bg-neutral-800 text-neutral-300"
-              >
-                Full Dashboard ↗
-              </button>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/50">
-                <p className="text-xs text-neutral-400 uppercase font-medium">Uptime</p>
-                <div className="text-3xl font-black text-white mt-1">99.98%</div>
-                <span className="text-xs text-emerald-400">Operational</span>
-              </div>
-              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/50">
-                <p className="text-xs text-neutral-400 uppercase font-medium">Saved Posts</p>
-                <div className="text-3xl font-black text-white mt-1">{posts.length}</div>
-                <span className="text-xs text-neutral-400">Archived in database</span>
-              </div>
-              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/50">
-                <p className="text-xs text-neutral-400 uppercase font-medium">Sync Latency</p>
-                <div className="text-3xl font-black text-white mt-1">18ms</div>
-                <span className="text-xs text-emerald-400">Edge Verified</span>
-              </div>
-            </div>
-          </section>
-
-          {/* Services */}
-          <section id="services" className="w-full max-w-5xl px-6 py-12 border-t border-neutral-900">
-            <h3 className="text-lg sm:text-xl font-bold mb-4 text-neutral-200">Services</h3>
-            <div className="p-6 rounded-xl border border-neutral-800 bg-neutral-900/30 text-xs sm:text-sm text-neutral-400 space-y-2">
-              <p>• Automated Facebook Page Content Archiving</p>
-              <p>• Supabase Real-time Database Synchronization</p>
-              <p>• Vercel Global Edge Cloud Deployments</p>
-            </div>
-          </section>
-
-          {/* Docs */}
-          <section id="docs" className="w-full max-w-5xl px-6 py-12 border-t border-neutral-900 mb-10">
-            <h3 className="text-lg sm:text-xl font-bold mb-3 text-neutral-200">Documentation & Support</h3>
-            <p className="text-xs sm:text-sm text-neutral-400">
-              For administrative access and configuration inquiries, contact:{" "}
-              <a href="mailto:mastermindai.25@gmail.com" className="text-white underline">
-                mastermindai.25@gmail.com
-              </a>
-            </p>
-          </section>
-        </div>
-      ) : (
-        /* Dashboard / Feed View */
-        <section className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6">
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-neutral-800">
-            <div>
-              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs text-blue-400 mb-1">
-                <span>●</span> Connected: {formData.name}
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Social Operations Hub</h2>
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setActiveTab("social")}
-                className={`px-4 py-2 rounded-lg text-xs font-semibold transition ${
-                  activeTab === "social"
-                    ? "bg-blue-600 text-white"
-                    : "bg-neutral-900 text-neutral-400 border border-neutral-800 hover:text-white"
-                }`}
-              >
-                Facebook Feed & Archive
-              </button>
-              <button
-                onClick={() => setActiveTab("overview")}
-                className={`px-4 py-2 rounded-lg text-xs font-semibold transition ${
-                  activeTab === "overview"
-                    ? "bg-white text-black"
-                    : "bg-neutral-900 text-neutral-400 border border-neutral-800 hover:text-white"
-                }`}
-              >
-                System Metrics
-              </button>
-            </div>
-          </div>
-
-          {activeTab === "social" ? (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="space-y-6">
-                <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-neutral-400">Sync Status</span>
-                    <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">
-                      Active
-                    </span>
-                  </div>
-                  <h4 className="text-base font-bold text-white">Digital Pulse Page</h4>
-                  <p className="text-xs text-neutral-400 leading-relaxed">
-                    Facebook posts, videos, and status updates are preserved here in real time.
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/50 space-y-4">
-                  <h4 className="text-sm font-bold text-white flex items-center justify-between">
-                    <span>Archive New Post</span>
-                    <span className="text-[10px] text-neutral-500">Instant Save</span>
-                  </h4>
-                  <form onSubmit={handleAddPost} className="space-y-3">
-                    <textarea
-                      rows={3}
-                      value={newPostText}
-                      onChange={(e) => setNewPostText(e.target.value)}
-                      placeholder="Type or paste your Facebook post text here..."
-                      className="w-full px-3 py-2.5 rounded-lg bg-neutral-950 border border-neutral-800 text-xs text-white focus:outline-none focus:border-blue-500 transition resize-none"
-                    />
-                    <div className="flex gap-2">
-                      {(["Post", "Reel", "Photo"] as const).map((type) => (
-                        <button
-                          key={type}
-                          type="button"
-                          onClick={() => setNewPostType(type)}
-                          className={`flex-1 py-1 rounded text-xs border transition ${
-                            newPostType === type
-                              ? "bg-neutral-800 border-neutral-600 text-white font-semibold"
-                              : "border-neutral-800 text-neutral-400 hover:text-white"
-                          }`}
-                        >
-                          {type}
-                        </button>
-                      ))}
-                    </div>
-                    <button
-                      type="submit"
-                      className="w-full py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition shadow-md"
-                    >
-                      Save to Feed Archive
-                    </button>
-                  </form>
-                </div>
-              </div>
-
-              <div className="lg:col-span-2 space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-base font-bold text-neutral-200">
-                    Archived Feed <span className="text-xs text-neutral-500 font-normal">({posts.length} entries)</span>
-                  </h3>
-                  <span className="text-xs text-neutral-400">Auto-refresh synced</span>
-                </div>
-
-                <div className="space-y-3">
-                  {posts.map((post) => (
-                    <div
-                      key={post.id}
-                      className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/30 hover:border-neutral-700 transition space-y-3"
-                    >
-                      <div className="flex items-center justify-between">
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {filteredPosts.map((post) => (
+                  <article
+                    key={post.id}
+                    className="p-5 rounded-2xl border border-neutral-800 bg-neutral-900/40 hover:border-neutral-700 transition flex flex-col justify-between space-y-3 shadow-sm"
+                  >
+                    <div>
+                      {/* Post Header */}
+                      <div className="flex items-center justify-between mb-2.5">
                         <div className="flex items-center gap-2.5">
-                          <div className="h-7 w-7 rounded-full bg-blue-600 flex items-center justify-center font-bold text-xs text-white">
+                          <div className="h-8 w-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center">
                             f
                           </div>
                           <div>
-                            <span className="text-xs font-bold text-white block">Digital Pulse</span>
+                            <h4 className="text-xs font-bold text-white leading-tight">Digital Pulse BD</h4>
                             <span className="text-[10px] text-neutral-400">{post.date}</span>
                           </div>
                         </div>
-                        <span className="text-[11px] px-2 py-0.5 rounded-full border border-neutral-700 bg-neutral-800 text-neutral-300">
+                        <span className="text-[11px] px-2.5 py-0.5 rounded-full border border-neutral-700 bg-neutral-800 text-neutral-300 font-medium">
                           {post.type}
                         </span>
                       </div>
 
-                      <p className="text-sm text-neutral-200 leading-relaxed">{post.content}</p>
+                      {/* Post Title & Content */}
+                      <h3 className="text-sm font-semibold text-white mb-1.5">{post.title}</h3>
+                      <p className="text-xs text-neutral-300 leading-relaxed whitespace-pre-line">{post.content}</p>
 
-                      <div className="flex items-center gap-6 pt-2 border-t border-neutral-800/60 text-xs text-neutral-400">
-                        <span>👍 {post.likes} Likes</span>
-                        <span>💬 {post.comments} Comments</span>
-                        <span>🔄 {post.shares} Shares</span>
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-1.5 mt-3">
+                        {post.tags.map((tag, idx) => (
+                          <span
+                            key={idx}
+                            onClick={() => setSearchQuery(tag)}
+                            className="text-[10px] px-2 py-0.5 rounded bg-neutral-800 text-blue-400 hover:text-white cursor-pointer transition"
+                          >
+                            #{tag}
+                          </span>
+                        ))}
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/50 space-y-2">
-                  <p className="text-xs text-neutral-400 uppercase font-medium">Uptime</p>
-                  <div className="text-3xl font-black text-white">99.98%</div>
-                  <span className="text-xs text-emerald-400 font-medium">✓ Operational</span>
-                </div>
-                <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/50 space-y-2">
-                  <p className="text-xs text-neutral-400 uppercase font-medium">Database Records</p>
-                  <div className="text-3xl font-black text-white">{posts.length}</div>
-                  <span className="text-xs text-neutral-400">Supabase Ready</span>
-                </div>
-                <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/50 space-y-2">
-                  <p className="text-xs text-neutral-400 uppercase font-medium">Pipeline Response</p>
-                  <div className="text-3xl font-black text-white">18ms</div>
-                  <span className="text-xs text-emerald-400">Real-time Stream</span>
-                </div>
-              </div>
-            </div>
-          )}
-        </section>
-      )}
 
-      {/* Onboarding Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md rounded-2xl border border-neutral-800 bg-neutral-900 p-6 shadow-2xl space-y-5 text-left">
-            <div className="flex items-start justify-between">
-              <div>
-                <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider">Fast-Track Setup</span>
-                <h3 className="text-2xl font-bold text-white mt-1">Client Onboarding Portal</h3>
-                <p className="text-xs text-neutral-400">Configure your Digital Pulse workspace.</p>
+                    {/* Engagement Counts */}
+                    <div className="flex items-center justify-between pt-3 border-t border-neutral-800/80 text-[11px] text-neutral-400">
+                      <span>👍 {post.likes} Likes</span>
+                      <span>💬 {post.comments} Comments</span>
+                      <span>🔄 {post.shares} Shares</span>
+                    </div>
+                  </article>
+                ))}
               </div>
-              <button onClick={() => setShowModal(false)} className="text-neutral-400 hover:text-white text-lg p-1">
+            )}
+          </div>
+        )}
+
+        {/* TAB 2: SERVICES */}
+        {activeTab === "services" && (
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-white">Digital Pulse Services</h3>
+            <p className="text-xs sm:text-sm text-neutral-400">
+              আমাদের প্ল্যাটফর্মের মাধ্যমে যে সার্ভিসগুলো সরাসরি প্রদান করা হয়:
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-2">
+                <span className="text-xl">🚀</span>
+                <h4 className="font-semibold text-white">Social Workflow Automation</h4>
+                <p className="text-xs text-neutral-400">ফেসবুক ও সোশ্যাল মিডিয়া কনটেন্ট অটোমেশন এবং ডাটাবেজ ব্যাকআপ।</p>
+              </div>
+              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-2">
+                <span className="text-xl">🎨</span>
+                <h4 className="font-semibold text-white">Creative Media & Branding</h4>
+                <p className="text-xs text-neutral-400">ব্যানার ডিজাইন, প্রমোশনাল ৩ডি অ্যানিমেশন এবং ভিজ্যুয়াল প্যাকেজ।</p>
+              </div>
+              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-2">
+                <span className="text-xl">⚡</span>
+                <h4 className="font-semibold text-white">Cloud Web Applications</h4>
+                <p className="text-xs text-neutral-400">Next.js এবং Supabase দ্বারা পরিচালিত দ্রুতগতির নিরাপদ পোর্টাল।</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 3: ANALYTICS */}
+        {activeTab === "analytics" && (
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-white">Live System Telemetry</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-1">
+                <span className="text-xs text-neutral-400 uppercase">System Status</span>
+                <div className="text-2xl font-bold text-emerald-400">99.98% Active</div>
+                <p className="text-[11px] text-neutral-500">Vercel Production Edge</p>
+              </div>
+              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-1">
+                <span className="text-xs text-neutral-400 uppercase">Total Saved Content</span>
+                <div className="text-2xl font-bold text-white">{posts.length} Items</div>
+                <p className="text-[11px] text-neutral-500">Archived in Feed</p>
+              </div>
+              <div className="p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-1">
+                <span className="text-xs text-neutral-400 uppercase">Response Latency</span>
+                <div className="text-2xl font-bold text-blue-400">18 ms</div>
+                <p className="text-[11px] text-neutral-500">Instant query delivery</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 4: CONTACT */}
+        {activeTab === "contact" && (
+          <div className="max-w-xl mx-auto p-6 rounded-2xl border border-neutral-800 bg-neutral-900/40 space-y-4 text-center">
+            <h3 className="text-xl font-bold text-white">যোগাযোগ ও সাপোর্ট</h3>
+            <p className="text-xs sm:text-sm text-neutral-400">
+              Digital Pulse BD সম্পর্কে যেকোনো অনুসন্ধান বা তথ্যের জন্য সরাসরি যোগাযোগ করুন:
+            </p>
+            <div className="p-4 rounded-xl bg-neutral-950 border border-neutral-800 text-left space-y-2 text-xs sm:text-sm">
+              <p>🏢 <strong>Organization:</strong> Digital Pulse BD</p>
+              <p>✉️ <strong>Official Email:</strong> mastermindai.25@gmail.com</p>
+              <p>🌐 <strong>Platform:</strong> Next.js & Supabase Powered</p>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* CREATE NEW POST MODAL */}
+      {showCreateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="w-full max-w-lg rounded-2xl border border-neutral-800 bg-neutral-900 p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-base sm:text-lg font-bold text-white">নতুন পোস্ট / রিলস যোগ করুন</h3>
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="text-neutral-400 hover:text-white text-lg p-1"
+              >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleLaunch} className="space-y-4">
+            <form onSubmit={handleCreatePost} className="space-y-3 text-left">
               <div>
-                <label className="text-xs font-medium text-neutral-300 block mb-1.5">Full Name or Brand</label>
+                <label className="text-xs text-neutral-300 block mb-1">পোস্ট টাইটেল</label>
                 <input
                   type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3 py-2.5 rounded-lg bg-neutral-950 border border-neutral-800 text-sm text-white focus:outline-none focus:border-white transition"
+                  value={newPostTitle}
+                  onChange={(e) => setNewPostTitle(e.target.value)}
+                  placeholder="যেমন: নতুন রিলস বা প্রজেক্ট আপডেট..."
+                  className="w-full px-3 py-2 rounded-lg bg-neutral-950 border border-neutral-800 text-xs text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-medium text-neutral-300 block mb-1.5">Work Email</label>
-                <input
-                  type="email"
+                <label className="text-xs text-neutral-300 block mb-1">কন্টেন্ট / পোস্টের বিবরণ *</label>
+                <textarea
+                  rows={4}
                   required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-3 py-2.5 rounded-lg bg-neutral-950 border border-neutral-800 text-sm text-white focus:outline-none focus:border-white transition"
+                  value={newPostContent}
+                  onChange={(e) => setNewPostContent(e.target.value)}
+                  placeholder="ফেসবুক পোস্টের টেক্সট বা ক্যাপশন লিখুন..."
+                  className="w-full px-3 py-2 rounded-lg bg-neutral-950 border border-neutral-800 text-xs text-white focus:outline-none focus:border-blue-500 resize-none"
                 />
               </div>
 
-              <div>
-                <label className="text-xs font-medium text-neutral-300 block mb-1.5">Project Name</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.project}
-                  onChange={(e) => setFormData({ ...formData, project: e.target.value })}
-                  className="w-full px-3 py-2.5 rounded-lg bg-neutral-950 border border-neutral-800 text-sm text-white focus:outline-none focus:border-white transition"
-                />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-neutral-300 block mb-1">কনটেন্ট ধরন</label>
+                  <select
+                    value={newPostType}
+                    onChange={(e) => setNewPostType(e.target.value as any)}
+                    className="w-full px-3 py-2 rounded-lg bg-neutral-950 border border-neutral-800 text-xs text-white focus:outline-none focus:border-blue-500"
+                  >
+                    <option value="Post">Post (স্ট্যাটাস)</option>
+                    <option value="Reel">Reel (ভিডিও)</option>
+                    <option value="Photo">Photo (ছবি)</option>
+                    <option value="Notice">Notice (নোটিশ)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-xs text-neutral-300 block mb-1">ট্যাগ (কমা দিয়ে লিখুন)</label>
+                  <input
+                    type="text"
+                    value={newPostTags}
+                    onChange={(e) => setNewPostTags(e.target.value)}
+                    placeholder="Branding, Motion, Update"
+                    className="w-full px-3 py-2 rounded-lg bg-neutral-950 border border-neutral-800 text-xs text-white focus:outline-none focus:border-blue-500"
+                  >
+                  </input>
+                </div>
               </div>
 
-              <button
-                type="submit"
-                className="w-full py-3 rounded-lg bg-white text-black font-semibold hover:bg-neutral-200 transition text-sm mt-2 cursor-pointer shadow-lg"
-              >
-                Complete Setup & Launch
-              </button>
+              <div className="pt-2 flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowCreateModal(false)}
+                  className="px-4 py-2 rounded-lg bg-neutral-800 text-neutral-300 text-xs hover:bg-neutral-700"
+                >
+                  বাতিল
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-lg"
+                >
+                  ফিডে সেভ করুন
+                </button>
+              </div>
             </form>
           </div>
         </div>
       )}
 
       {/* Footer */}
-      <footer className="w-full border-t border-neutral-900 py-6 text-center text-xs text-neutral-600">
-        © 2026 Digital Pulse. All rights reserved.
+      <footer className="w-full border-t border-neutral-900 py-4 text-center text-xs text-neutral-500">
+        © 2026 Digital Pulse BD. All rights reserved.
       </footer>
     </main>
   );
