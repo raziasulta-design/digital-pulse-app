@@ -482,4 +482,4 @@ export default function DigitalPulseHome() {
       </footer>
     </main>
   );
-}
+} 
