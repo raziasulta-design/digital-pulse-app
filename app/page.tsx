@@ -49,9 +49,17 @@ export default function DigitalPulseHome() {
           <div className="text-xl font-black tracking-wider text-emerald-400">
             DIGITAL PULSE
           </div>
-          <nav className="hidden md:flex space-y-0 space-x-6 text-sm font-medium text-slate-300">
+          <nav className="hidden md:flex space-x-6 text-sm font-medium text-slate-300">
             <a href="#clients" className="hover:text-emerald-400 transition">কারা সেবা নিবেন</a>
             <a href="#services" className="hover:text-emerald-400 transition">সার্ভিসসমূহ</a>
+            <a 
+              href="https://gemini.google.com/share/7be544ff547c?skid=6177ea94-e945-4e0c-ab1a-7ee7a6f8764f"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emerald-400 hover:underline transition"
+            >
+              পোর্টফোলিও ডক ↗
+            </a>
             <a href="#contact" className="hover:text-emerald-400 transition">যোগাযোগ</a>
           </nav>
           <a
@@ -77,6 +85,16 @@ export default function DigitalPulseHome() {
         <p className="mt-4 text-base sm:text-lg text-slate-400 max-w-2xl mx-auto">
           প্রতিষ্ঠানিক প্রচার, রাজনৈতিক ক্যাম্পেইন কিংবা পারসোনাল ব্র্যান্ডিং—আপনার প্রয়োজন অনুযায়ী বাজেট-বান্ধব এবং মানসম্মত সেবা।
         </p>
+        <div className="mt-8 flex justify-center gap-4">
+          <a
+            href="https://gemini.google.com/share/7be544ff547c?skid=6177ea94-e945-4e0c-ab1a-7ee7a6f8764f"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sm font-semibold text-white transition"
+          >
+            সার্ভিস ল্যান্ডিং পেজ / ডক দেখুন ↗
+          </a>
+        </div>
       </section>
 
       {/* Target Audiences / Client Categories */}
@@ -162,19 +180,28 @@ export default function DigitalPulseHome() {
             </a>
           </div>
 
-          <div className="mt-6">
+          <div className="mt-6 flex flex-wrap justify-center gap-4 text-xs">
             <a
-              href="https://facebook.com" 
+              href="https://www.facebook.com/digitalpulse.media.bd/directory_links" 
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-emerald-400 hover:underline"
+              className="text-emerald-400 hover:underline"
             >
-              Digital Pulse Facebook Page →
+              Digital Pulse Facebook Official Page ↗
+            </a>
+            <span className="text-slate-600">•</span>
+            <a
+              href="https://gemini.google.com/share/7be544ff547c?skid=6177ea94-e945-4e0c-ab1a-7ee7a6f8764f" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-400 hover:text-emerald-400 transition"
+            >
+              Detailed Service Overview ↗
             </a>
           </div>
 
           <p className="mt-10 text-xs text-slate-600">
-            © {new Date().getFullYear()} Digital Pulse. All rights reserved.
+            © 2026 Digital Pulse. All rights reserved.
           </p>
         </div>
       </footer>
