@@ -107,16 +107,29 @@ export default function DigitalPulseHome() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       </div>
 
-      {/* Header */}
+      {/* Header with Digital Pulse Brand Logo */}
       <header className="sticky top-0 z-50 bg-[#060b13]/90 backdrop-blur-xl border-b border-cyan-900/40">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="text-xl font-black tracking-wider text-cyan-400 flex items-center gap-2 drop-shadow-[0_0_12px_rgba(34,211,238,0.5)]">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
-            DIGITAL PULSE
+        <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img 
+              src="/logo.png" 
+              alt="Digital Pulse Official Logo" 
+              className="h-12 w-12 object-contain rounded-full border border-cyan-400/30 shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+            />
+            <div className="flex flex-col">
+              <span className="text-lg font-black tracking-wider text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.5)]">
+                DIGITAL PULSE
+              </span>
+              <span className="text-[10px] font-bold text-slate-400 tracking-widest uppercase">
+                Creative & AI Hub
+              </span>
+            </div>
           </div>
+
           <nav className="hidden md:flex space-x-6 text-sm font-black text-slate-200">
             <a href="#clients-box" className="hover:text-cyan-400 transition">কারা সেবা নিবেন</a>
             <a href="#services-box" className="hover:text-cyan-400 transition">সেবাসমূহ</a>
+            <a href="#about" className="hover:text-cyan-400 transition">পরিচিতি</a>
             <a 
               href="https://gemini.google.com/share/7be544ff547c?skid=6177ea94-e945-4e0c-ab1a-7ee7a6f8764f"
               target="_blank"
@@ -140,9 +153,7 @@ export default function DigitalPulseHome() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative z-10 px-6 pt-16 pb-10 max-w-5xl mx-auto text-center">
-        
-        {/* 1. Clear Quote Box with Glowing Blue Border */}
+      <section className="relative z-10 px-6 pt-14 pb-10 max-w-5xl mx-auto text-center">
         <div className="mb-6 inline-block p-5 sm:p-6 rounded-2xl bg-[#09111e]/90 border border-cyan-400/50 shadow-[0_0_25px_rgba(6,182,212,0.25)] backdrop-blur-xl">
           <p className="text-sm sm:text-base font-black text-white italic tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             “পরিশ্রম ও সততা দিয়ে করা কাজই সফলতার মূল চাবিকাঠি—আমরা প্রতিটি কাজে সর্বোচ্চ মান ও নিষ্ঠা নিশ্চিত করি।”
@@ -156,12 +167,10 @@ export default function DigitalPulseHome() {
           </span>
         </h1>
 
-        {/* 2. Clear Summary Box with Glowing Blue Border */}
         <div className="mt-6 max-w-3xl mx-auto p-5 sm:p-6 rounded-2xl bg-[#09111e]/90 border border-blue-500/50 shadow-[0_0_30px_rgba(59,130,246,0.25)] backdrop-blur-xl text-white text-sm sm:text-base font-bold leading-relaxed">
           <span className="text-cyan-300 font-black text-base mr-1">✨ এক নজরে:</span> প্রচার বিজ্ঞাপন, আধুনিক ভিডিও মেকিং, এআই ওয়েবসাইট, ক্রিয়েটিভ ব্র্যান্ডিং ডিজাইন থেকে শুরু করে নিখুঁত এক্সেল ডেটা সমাধান—আপনার সব প্রয়োজনীয় ডিজিটাল সেবা এখন এক প্ল্যাটফর্মেই প্রস্তুত।
         </div>
 
-        {/* Hero Button */}
         <div className="mt-8 flex justify-center">
           <a
             href="https://gemini.google.com/share/7be544ff547c?skid=6177ea94-e945-4e0c-ab1a-7ee7a6f8764f"
@@ -173,7 +182,6 @@ export default function DigitalPulseHome() {
           </a>
         </div>
 
-        {/* Dynamic Image Banner */}
         <div className="mt-10 relative mx-auto max-w-3xl rounded-3xl overflow-hidden border border-cyan-500/30 shadow-[0_0_35px_rgba(6,182,212,0.15)] group">
           <img
             src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80"
@@ -295,6 +303,26 @@ export default function DigitalPulseHome() {
               })}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Clean & Professional Founder / Vision Note */}
+      <section id="about" className="relative z-10 px-6 py-8 max-w-5xl mx-auto">
+        <div className="p-6 sm:p-8 rounded-3xl bg-[#09111e]/90 border border-cyan-500/30 shadow-[0_0_30px_rgba(6,182,212,0.15)] flex flex-col md:flex-row items-center gap-6">
+          <img 
+            src="/logo.png" 
+            alt="Digital Pulse" 
+            className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-full border border-cyan-400/40 p-1"
+          />
+          <div className="text-center md:text-left">
+            <div className="inline-block px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-[11px] font-black text-cyan-300 uppercase tracking-widest mb-2">
+              Founder & Lead Strategist
+            </div>
+            <h3 className="text-xl font-black text-white">Digital Pulse-এর লক্ষ্য ও অঙ্গীকার</h3>
+            <p className="mt-2 text-sm text-slate-300 font-medium leading-relaxed">
+              আধুনিক কৃত্রিম বুদ্ধিমত্তা (AI), ক্রিয়েটিভ মিডিয়া প্রোডাকশন এবং প্রিসাইজ ডেটা ম্যানেজমেন্টের সমন্বয়ে আমরা ব্যক্তি ও ব্যবসায়ের জন্য কার্যকর ডিজিটাল উপস্থিতি গড়ে তুলি। প্রতিটি প্রোজেক্টে সর্বোচ্চ নিষ্ঠা, সঠিক সময়সীমা এবং মানসম্মত সমাধান নিশ্চিত করাই আমাদের প্রধান অঙ্গীকার।
+            </p>
+          </div>
         </div>
       </section>
 
