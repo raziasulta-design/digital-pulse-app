@@ -2,6 +2,86 @@
 
 import React, { useState } from "react";
 
+// Digital Pulse Brand Official Seal Component
+function BrandLogo({ className = "w-12 h-12" }: { className?: string }) {
+  return (
+    <div className={`relative flex items-center justify-center shrink-0 ${className}`}>
+      <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-[0_0_12px_rgba(245,158,11,0.5)]">
+        {/* Outer Golden Metallic Ring */}
+        <circle cx="100" cy="100" r="92" fill="#0b1322" stroke="url(#goldGradient)" strokeWidth="9" />
+        <circle cx="100" cy="100" r="85" fill="none" stroke="#d97706" strokeWidth="1" opacity="0.6" />
+
+        {/* Glossy Modern Gradient Ribbons (DP Emblem) */}
+        <defs>
+          <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#fef08a" />
+            <stop offset="25%" stopColor="#d97706" />
+            <stop offset="50%" stopColor="#fef08a" />
+            <stop offset="75%" stopColor="#b45309" />
+            <stop offset="100%" stopColor="#fde047" />
+          </linearGradient>
+
+          <linearGradient id="bluePurple" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ec4899" />
+            <stop offset="50%" stopColor="#8b5cf6" />
+            <stop offset="100%" stopColor="#2563eb" />
+          </linearGradient>
+
+          <linearGradient id="cyanBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#38bdf8" />
+            <stop offset="50%" stopColor="#06b6d4" />
+            <stop offset="100%" stopColor="#6366f1" />
+          </linearGradient>
+        </defs>
+
+        {/* Stylized Interlocking DP Loop */}
+        <path
+          d="M 68 122 V 72 C 68 56 82 46 96 52 C 105 56 110 65 110 75 C 110 90 94 92 84 92 H 68"
+          fill="none"
+          stroke="url(#bluePurple)"
+          strokeWidth="14"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M 132 78 V 128 C 132 144 118 154 104 148 C 95 144 90 135 90 125 C 90 110 106 108 116 108 H 132"
+          fill="none"
+          stroke="url(#cyanBlue)"
+          strokeWidth="14"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+
+        {/* Crisp Golden Typography */}
+        <text
+          x="100"
+          y="152"
+          textAnchor="middle"
+          fill="url(#goldGradient)"
+          fontSize="17"
+          fontWeight="900"
+          letterSpacing="3"
+          fontFamily="system-ui, -apple-system, sans-serif"
+        >
+          DIGITAL
+        </text>
+        <text
+          x="100"
+          y="170"
+          textAnchor="middle"
+          fill="url(#goldGradient)"
+          fontSize="14"
+          fontWeight="900"
+          letterSpacing="4"
+          fontFamily="system-ui, -apple-system, sans-serif"
+        >
+          PULSE
+        </text>
+      </svg>
+    </div>
+  );
+}
+
 export default function DigitalPulseHome() {
   const [showClients, setShowClients] = useState(false);
   const [showServices, setShowServices] = useState(false);
@@ -107,17 +187,11 @@ export default function DigitalPulseHome() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       </div>
 
-      {/* Header with Perfect Crisp Logo */}
+      {/* Header with Exact Seal Logo */}
       <header className="sticky top-0 z-50 bg-[#060b13]/90 backdrop-blur-xl border-b border-cyan-900/40">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-14 w-14 rounded-full bg-white p-1 border-2 border-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.5)] flex items-center justify-center overflow-hidden">
-              <img 
-                src="/logo.png" 
-                alt="Digital Pulse Official Logo" 
-                className="h-full w-full object-contain"
-              />
-            </div>
+            <BrandLogo className="w-14 h-14" />
             <div className="flex flex-col">
               <span className="text-xl font-black tracking-wider text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.5)]">
                 DIGITAL PULSE
@@ -308,16 +382,10 @@ export default function DigitalPulseHome() {
         </div>
       </section>
 
-      {/* FOUNDER SECTION (Upgraded to Glowing Bluish Master Box with Crisp White Text) */}
+      {/* FOUNDER SECTION (Clean Glowing Bluish Box with Embedded Logo) */}
       <section id="about" className="relative z-10 px-6 py-6 max-w-5xl mx-auto">
         <div className="relative p-6 sm:p-10 rounded-3xl bg-gradient-to-b from-slate-900/95 to-[#0b1322]/95 border border-cyan-400/50 shadow-[0_0_35px_rgba(6,182,212,0.2)] backdrop-blur-xl flex flex-col md:flex-row items-center gap-6">
-          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-white p-1 border-2 border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.6)] flex items-center justify-center shrink-0 overflow-hidden">
-            <img 
-              src="/logo.png" 
-              alt="Digital Pulse Official Seal" 
-              className="w-full h-full object-contain"
-            />
-          </div>
+          <BrandLogo className="w-24 h-24 sm:w-28 sm:h-28" />
           <div className="text-center md:text-left flex-1">
             <div className="inline-block px-3.5 py-1 rounded-full bg-blue-950 border border-cyan-400/50 text-xs font-black text-cyan-300 uppercase tracking-widest mb-2 shadow-sm">
               Founder & Lead Strategist
