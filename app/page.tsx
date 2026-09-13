@@ -2,77 +2,109 @@
 
 import React, { useState } from "react";
 
-// Digital Pulse Brand Official Seal Component
-function BrandLogo({ className = "w-12 h-12" }: { className?: string }) {
+// Digital Pulse Authentic 3D Ribbon & Golden Typography Emblem
+function BrandLogo({ className = "w-14 h-14" }: { className?: string }) {
   return (
     <div className={`relative flex items-center justify-center shrink-0 ${className}`}>
-      <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-[0_0_12px_rgba(245,158,11,0.5)]">
-        {/* Outer Golden Metallic Ring */}
-        <circle cx="100" cy="100" r="92" fill="#0b1322" stroke="url(#goldGradient)" strokeWidth="9" />
-        <circle cx="100" cy="100" r="85" fill="none" stroke="#d97706" strokeWidth="1" opacity="0.6" />
-
-        {/* Glossy Modern Gradient Ribbons (DP Emblem) */}
+      <svg viewBox="0 0 260 260" className="w-full h-full drop-shadow-[0_0_15px_rgba(234,179,8,0.45)]">
         <defs>
-          <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          {/* Metallic Gold Gradient for Ring & Typography */}
+          <linearGradient id="goldMetallic" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#fef08a" />
-            <stop offset="25%" stopColor="#d97706" />
-            <stop offset="50%" stopColor="#fef08a" />
-            <stop offset="75%" stopColor="#b45309" />
-            <stop offset="100%" stopColor="#fde047" />
+            <stop offset="25%" stopColor="#eab308" />
+            <stop offset="50%" stopColor="#ca8a04" />
+            <stop offset="75%" stopColor="#fef08a" />
+            <stop offset="100%" stopColor="#a16207" />
           </linearGradient>
 
-          <linearGradient id="bluePurple" x1="0%" y1="0%" x2="100%" y2="100%">
+          {/* Left Ribbon (Magenta to Deep Blue) */}
+          <linearGradient id="leftLoop" x1="20%" y1="0%" x2="80%" y2="100%">
             <stop offset="0%" stopColor="#ec4899" />
-            <stop offset="50%" stopColor="#8b5cf6" />
+            <stop offset="45%" stopColor="#d946ef" />
+            <stop offset="85%" stopColor="#6366f1" />
             <stop offset="100%" stopColor="#2563eb" />
           </linearGradient>
 
-          <linearGradient id="cyanBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#38bdf8" />
-            <stop offset="50%" stopColor="#06b6d4" />
-            <stop offset="100%" stopColor="#6366f1" />
+          {/* Right Ribbon (Cyan to Violet Loop) */}
+          <linearGradient id="rightLoop" x1="80%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#06b6d4" />
+            <stop offset="35%" stopColor="#38bdf8" />
+            <stop offset="70%" stopColor="#818cf8" />
+            <stop offset="100%" stopColor="#c026d3" />
+          </linearGradient>
+
+          {/* Center Fold Shadow for 3D Depth */}
+          <linearGradient id="innerShadow" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#0f172a" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="transparent" stopOpacity="0" />
           </linearGradient>
         </defs>
 
-        {/* Stylized Interlocking DP Loop */}
-        <path
-          d="M 68 122 V 72 C 68 56 82 46 96 52 C 105 56 110 65 110 75 C 110 90 94 92 84 92 H 68"
-          fill="none"
-          stroke="url(#bluePurple)"
-          strokeWidth="14"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M 132 78 V 128 C 132 144 118 154 104 148 C 95 144 90 135 90 125 C 90 110 106 108 116 108 H 132"
-          fill="none"
-          stroke="url(#cyanBlue)"
-          strokeWidth="14"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        {/* Outer Metallic Ring */}
+        <circle cx="130" cy="130" r="118" fill="#ffffff" stroke="url(#goldMetallic)" strokeWidth="10" />
+        <circle cx="130" cy="130" r="110" fill="none" stroke="#ca8a04" strokeWidth="1.5" opacity="0.5" />
 
-        {/* Crisp Golden Typography */}
+        {/* 3D Infinity Ribbon (Exact Stylized DP Shape) */}
+        <g transform="translate(15, 8)">
+          {/* Back cyan curve */}
+          <path
+            d="M 115 58 C 145 32 178 50 178 82 C 178 114 146 128 115 98"
+            fill="none"
+            stroke="url(#rightLoop)"
+            strokeWidth="24"
+            strokeLinecap="round"
+          />
+
+          {/* Front magenta/purple loop */}
+          <path
+            d="M 115 98 C 85 128 52 118 52 82 C 52 48 85 34 115 62"
+            fill="none"
+            stroke="url(#leftLoop)"
+            strokeWidth="24"
+            strokeLinecap="round"
+          />
+
+          {/* Interlocking Overlap & Lower Stem */}
+          <path
+            d="M 52 82 V 126 C 52 144 72 152 92 140 C 108 130 115 112 115 95"
+            fill="none"
+            stroke="url(#leftLoop)"
+            strokeWidth="24"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+
+          {/* 3D Depth Shadow overlay */}
+          <path
+            d="M 102 70 C 110 78 116 88 116 98"
+            fill="none"
+            stroke="url(#innerShadow)"
+            strokeWidth="20"
+            strokeLinecap="round"
+          />
+        </g>
+
+        {/* Crisp Golden Typography (Matching Original Font & Letter Spacing) */}
         <text
-          x="100"
-          y="152"
+          x="130"
+          y="188"
           textAnchor="middle"
-          fill="url(#goldGradient)"
-          fontSize="17"
+          fill="url(#goldMetallic)"
+          fontSize="23"
           fontWeight="900"
-          letterSpacing="3"
+          letterSpacing="4"
           fontFamily="system-ui, -apple-system, sans-serif"
         >
           DIGITAL
         </text>
         <text
-          x="100"
-          y="170"
+          x="130"
+          y="214"
           textAnchor="middle"
-          fill="url(#goldGradient)"
-          fontSize="14"
+          fill="url(#goldMetallic)"
+          fontSize="20"
           fontWeight="900"
-          letterSpacing="4"
+          letterSpacing="6"
           fontFamily="system-ui, -apple-system, sans-serif"
         >
           PULSE
@@ -187,7 +219,7 @@ export default function DigitalPulseHome() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       </div>
 
-      {/* Header with Exact Seal Logo */}
+      {/* Header */}
       <header className="sticky top-0 z-50 bg-[#060b13]/90 backdrop-blur-xl border-b border-cyan-900/40">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -382,7 +414,7 @@ export default function DigitalPulseHome() {
         </div>
       </section>
 
-      {/* FOUNDER SECTION (Clean Glowing Bluish Box with Embedded Logo) */}
+      {/* FOUNDER SECTION (Clean Glowing Bluish Box with Accurate DP Emblem) */}
       <section id="about" className="relative z-10 px-6 py-6 max-w-5xl mx-auto">
         <div className="relative p-6 sm:p-10 rounded-3xl bg-gradient-to-b from-slate-900/95 to-[#0b1322]/95 border border-cyan-400/50 shadow-[0_0_35px_rgba(6,182,212,0.2)] backdrop-blur-xl flex flex-col md:flex-row items-center gap-6">
           <BrandLogo className="w-24 h-24 sm:w-28 sm:h-28" />
