@@ -2,21 +2,6 @@
 
 import React, { useState } from "react";
 
-// The exact image directly converted to embedded base64 code (Zero missing file issues)
-const ORIGINAL_LOGO = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhUTExIVFRUXFxUVFRUXFxUVFRUVFRUWFhUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OGxAQGy0lICUtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAOEA4QMBEQACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAAAQIEBQYHAwj/xABAEAABAwEFBAgEAwcDBAMAAAABAAIRAwQFEiExBkFRYQcTIjJxgZGhQrHB0RRScvAjM2KSouEVgvEkQ7KywtL/xAAZAQADAQEBAAAAAAAAAAAAAAAAAQIDBAX/xAAmEQACAgEDBAIDAQEBAAAAAAAAAQIRIQMSMRNBUWEEInGBkaGx/9oADAMBAAIRAxEAPwD5rSgIoAUBCQCgIgBQAkAIAUIAUAJAKAEgBQAkAkACAFACIAUAIgBoAUAIgBIAUAJAKAEgAQAUAJACQAUAKgBIAUAJAESgBIAUAJACQAgBQAgBQAkACAEQAUAJACgAoASAFACAFAHQAkAIgBIAUAJAAgAUAJACQAUACAEgBIAUAJACgBECgBQACgBIAUAIAUAJAACgBIAUAJACgBEACAFACAFAHQAoASAFACIAUAJAACgBIAQAgBIAUAJACgBEAKAEQCgBQACgAoASAFACIAUAJAACgBIAUAJACgBIAUAJACgBEAKAEQCgBQACgAoASAFACQAgBUACAFACIAUAJAACgBIAUAJACgBIAUAIgBUAIAUAKgBIAUAfQAoASAFAHQAoASAEQAUAIAUAJACgBIAUAJACAFACQAgBUAIgBIAUAFAHQAgBIAUAf/2Q==";
-
-function BrandLogo({ className = "w-14 h-14" }: { className?: string }) {
-  return (
-    <div className={`relative flex items-center justify-center shrink-0 rounded-full bg-white p-0.5 border-2 border-amber-400/80 shadow-[0_0_15px_rgba(251,191,36,0.4)] overflow-hidden ${className}`}>
-      <img
-        src={ORIGINAL_LOGO}
-        alt="Digital Pulse Official Logo"
-        className="w-full h-full object-contain"
-      />
-    </div>
-  );
-}
-
 export default function DigitalPulseHome() {
   const [showClients, setShowClients] = useState(false);
   const [showServices, setShowServices] = useState(false);
@@ -122,11 +107,13 @@ export default function DigitalPulseHome() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       </div>
 
-      {/* Header with Exact Original Logo */}
+      {/* Header */}
       <header className="sticky top-0 z-50 bg-[#060b13]/90 backdrop-blur-xl border-b border-cyan-900/40">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <BrandLogo className="w-14 h-14" />
+            <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center font-black text-white text-lg shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+              DP
+            </div>
             <div className="flex flex-col">
               <span className="text-xl font-black tracking-wider text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.5)]">
                 DIGITAL PULSE
@@ -317,10 +304,12 @@ export default function DigitalPulseHome() {
         </div>
       </section>
 
-      {/* FOUNDER SECTION (With Exact Matching Logo) */}
+      {/* Founder Section */}
       <section id="about" className="relative z-10 px-6 py-6 max-w-5xl mx-auto">
         <div className="relative p-6 sm:p-10 rounded-3xl bg-gradient-to-b from-slate-900/95 to-[#0b1322]/95 border border-cyan-400/50 shadow-[0_0_35px_rgba(6,182,212,0.2)] backdrop-blur-xl flex flex-col md:flex-row items-center gap-6">
-          <BrandLogo className="w-24 h-24 sm:w-28 sm:h-28" />
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center font-black text-white text-2xl shadow-[0_0_20px_rgba(6,182,212,0.4)] shrink-0">
+            DP
+          </div>
           <div className="text-center md:text-left flex-1">
             <div className="inline-block px-3.5 py-1 rounded-full bg-blue-950 border border-cyan-400/50 text-xs font-black text-cyan-300 uppercase tracking-widest mb-2 shadow-sm">
               Founder & Lead Strategist
