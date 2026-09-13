@@ -114,7 +114,7 @@ export default function DigitalPulseHome() {
             <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
             DIGITAL PULSE
           </div>
-          <nav className="hidden md:flex space-x-6 text-sm font-bold text-slate-200">
+          <nav className="hidden md:flex space-x-6 text-sm font-black text-slate-200">
             <a href="#clients-box" className="hover:text-cyan-400 transition">কারা সেবা নিবেন</a>
             <a href="#services-box" className="hover:text-cyan-400 transition">সেবাসমূহ</a>
             <a 
@@ -128,7 +128,6 @@ export default function DigitalPulseHome() {
             <a href="#contact" className="hover:text-cyan-400 transition">যোগাযোগ</a>
           </nav>
           
-          {/* Header Button (Matching Blue Gradient) */}
           <a
             href="https://wa.me/8801568477991"
             target="_blank"
@@ -142,9 +141,10 @@ export default function DigitalPulseHome() {
 
       {/* Hero Section */}
       <section className="relative z-10 px-6 pt-16 pb-10 max-w-5xl mx-auto text-center">
-        {/* Quote Badge */}
-        <div className="mb-6 inline-block p-4 rounded-2xl bg-slate-900/90 border border-cyan-500/40 shadow-2xl backdrop-blur-md">
-          <p className="text-sm sm:text-base font-bold text-cyan-200 italic drop-shadow">
+        
+        {/* 1. Clear Quote Box with Glowing Blue Border */}
+        <div className="mb-6 inline-block p-5 sm:p-6 rounded-2xl bg-[#09111e]/90 border border-cyan-400/50 shadow-[0_0_25px_rgba(6,182,212,0.25)] backdrop-blur-xl">
+          <p className="text-sm sm:text-base font-black text-white italic tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             “পরিশ্রম ও সততা দিয়ে করা কাজই সফলতার মূল চাবিকাঠি—আমরা প্রতিটি কাজে সর্বোচ্চ মান ও নিষ্ঠা নিশ্চিত করি।”
           </p>
         </div>
@@ -156,17 +156,18 @@ export default function DigitalPulseHome() {
           </span>
         </h1>
 
-        <div className="mt-6 max-w-2xl mx-auto p-5 rounded-2xl bg-slate-900/80 border border-slate-700/60 backdrop-blur-lg text-slate-200 text-sm sm:text-base font-medium leading-relaxed shadow-xl">
-          ✨ <span className="font-black text-cyan-300">এক নজরে:</span> প্রচার বিজ্ঞাপন, আধুনিক ভিডিও মেকিং, এআই ওয়েবসাইট, ক্রিয়েটিভ ব্র্যান্ডিং ডিজাইন থেকে শুরু করে নিখুঁত এক্সেল ডেটা সমাধান—আপনার সব প্রয়োজনীয় ডিজিটাল সেবা এখন এক প্ল্যাটফর্মেই প্রস্তুত।
+        {/* 2. Clear Summary Box with Glowing Blue Border */}
+        <div className="mt-6 max-w-3xl mx-auto p-5 sm:p-6 rounded-2xl bg-[#09111e]/90 border border-blue-500/50 shadow-[0_0_30px_rgba(59,130,246,0.25)] backdrop-blur-xl text-white text-sm sm:text-base font-bold leading-relaxed">
+          <span className="text-cyan-300 font-black text-base mr-1">✨ এক নজরে:</span> প্রচার বিজ্ঞাপন, আধুনিক ভিডিও মেকিং, এআই ওয়েবসাইট, ক্রিয়েটিভ ব্র্যান্ডিং ডিজাইন থেকে শুরু করে নিখুঁত এক্সেল ডেটা সমাধান—আপনার সব প্রয়োজনীয় ডিজিটাল সেবা এখন এক প্ল্যাটফর্মেই প্রস্তুত।
         </div>
 
-        {/* Hero Button (Consistent Blue Glowing Style) */}
+        {/* Hero Button */}
         <div className="mt-8 flex justify-center">
           <a
             href="https://gemini.google.com/share/7be544ff547c?skid=6177ea94-e945-4e0c-ab1a-7ee7a6f8764f"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-black text-sm shadow-[0_0_25px_rgba(37,99,235,0.45)] hover:shadow-[0_0_35px_rgba(6,182,212,0.6)] transition transform active:scale-95"
+            className="px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-black text-sm tracking-wide shadow-[0_0_25px_rgba(37,99,235,0.45)] hover:shadow-[0_0_35px_rgba(6,182,212,0.6)] transition transform active:scale-95"
           >
             সার্ভিস ল্যান্ডিং পেজ / ডক দেখুন ↗
           </a>
@@ -192,9 +193,8 @@ export default function DigitalPulseHome() {
         <div className="relative p-6 sm:p-10 rounded-3xl bg-gradient-to-b from-slate-900/95 to-[#0b1322]/95 border border-cyan-500/30 shadow-[0_0_30px_rgba(6,182,212,0.1)] backdrop-blur-xl">
           <div className="text-center max-w-xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-black text-white tracking-wide">আমরা যাদের জন্য কাজ করি</h2>
-            <p className="text-slate-300 text-sm font-medium mt-2">যেকোনো উদ্দেশ্য অনুযায়ী স্পেশালাইজড কনটেন্ট ও ক্যাম্পেইন সার্ভিস</p>
+            <p className="text-slate-300 text-sm font-bold mt-2">যেকোনো উদ্দেশ্য অনুযায়ী স্পেশালাইজড কনটেন্ট ও ক্যাম্পেইন সার্ভিস</p>
             
-            {/* Master Blue Button */}
             <button
               onClick={() => setShowClients(!showClients)}
               className="mt-6 w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-black text-sm tracking-wide shadow-[0_0_25px_rgba(37,99,235,0.45)] hover:shadow-[0_0_35px_rgba(6,182,212,0.6)] transition-all duration-300 transform active:scale-95 flex items-center justify-center gap-3 mx-auto"
@@ -223,9 +223,8 @@ export default function DigitalPulseHome() {
         <div className="relative p-6 sm:p-10 rounded-3xl bg-gradient-to-b from-slate-900/95 to-[#0b1322]/95 border border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.1)] backdrop-blur-xl">
           <div className="text-center max-w-xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-black text-white tracking-wide">আমাদের সেবাসমূহ</h2>
-            <p className="text-slate-300 text-sm font-medium mt-2">কাজের ধরণ অনুযায়ী ক্যাটাগরি সাজানো হয়েছে</p>
+            <p className="text-slate-300 text-sm font-bold mt-2">কাজের ধরণ অনুযায়ী ক্যাটাগরি সাজানো হয়েছে</p>
 
-            {/* Master Blue Button */}
             <button
               onClick={() => setShowServices(!showServices)}
               className="mt-6 w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-black text-sm tracking-wide shadow-[0_0_25px_rgba(37,99,235,0.45)] hover:shadow-[0_0_35px_rgba(6,182,212,0.6)] transition-all duration-300 transform active:scale-95 flex items-center justify-center gap-3 mx-auto"
@@ -277,7 +276,6 @@ export default function DigitalPulseHome() {
                             ))}
                           </ul>
                           
-                          {/* Inner Card Order Button (Blue Gradient) */}
                           <a
                             href={`https://wa.me/8801568477991?text=${encodeURIComponent(
                               `আমি এই সেবাটি সম্পর্কে জানতে ও অর্ডার করতে আগ্রহী: ${service.title}`
@@ -304,12 +302,11 @@ export default function DigitalPulseHome() {
       <footer id="contact" className="relative z-10 mt-12 px-6 py-16 border-t border-cyan-950/40 bg-[#04080e]/95 text-center">
         <div className="max-w-xl mx-auto">
           <h2 className="text-2xl font-black text-white">আপনার প্রোজেক্ট নিয়ে আলোচনা করুন</h2>
-          <p className="text-slate-300 text-sm font-medium mt-2 mb-6">
+          <p className="text-slate-300 text-sm font-bold mt-2 mb-6">
             বাজেট ফ্রেন্ডলি কোটেশন ও দ্রুত ডেলিভারির জন্য সরাসরি কথা বলুন।
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm font-medium">
-            {/* Footer WhatsApp Button (Blue Gradient) */}
             <a
               href="https://wa.me/8801568477991"
               target="_blank"
@@ -318,8 +315,6 @@ export default function DigitalPulseHome() {
             >
               📞 8801568477991 (WhatsApp)
             </a>
-            
-            {/* Email Button */}
             <a
               href="mailto:mastermindai.25@gmail.com"
               className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-white font-bold transition flex items-center justify-center gap-2 shadow-md"
