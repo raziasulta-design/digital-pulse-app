@@ -107,20 +107,22 @@ export default function DigitalPulseHome() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       </div>
 
-      {/* Header with Digital Pulse Brand Logo */}
+      {/* Header with Perfect Crisp Logo */}
       <header className="sticky top-0 z-50 bg-[#060b13]/90 backdrop-blur-xl border-b border-cyan-900/40">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img 
-              src="/logo.png" 
-              alt="Digital Pulse Official Logo" 
-              className="h-12 w-12 object-contain rounded-full border border-cyan-400/30 shadow-[0_0_15px_rgba(6,182,212,0.3)]"
-            />
+            <div className="h-14 w-14 rounded-full bg-white p-1 border-2 border-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.5)] flex items-center justify-center overflow-hidden">
+              <img 
+                src="/logo.png" 
+                alt="Digital Pulse Official Logo" 
+                className="h-full w-full object-contain"
+              />
+            </div>
             <div className="flex flex-col">
-              <span className="text-lg font-black tracking-wider text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.5)]">
+              <span className="text-xl font-black tracking-wider text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.5)]">
                 DIGITAL PULSE
               </span>
-              <span className="text-[10px] font-bold text-slate-400 tracking-widest uppercase">
+              <span className="text-[10px] font-black text-slate-300 tracking-widest uppercase">
                 Creative & AI Hub
               </span>
             </div>
@@ -306,20 +308,22 @@ export default function DigitalPulseHome() {
         </div>
       </section>
 
-      {/* Clean & Professional Founder / Vision Note */}
-      <section id="about" className="relative z-10 px-6 py-8 max-w-5xl mx-auto">
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#09111e]/90 border border-cyan-500/30 shadow-[0_0_30px_rgba(6,182,212,0.15)] flex flex-col md:flex-row items-center gap-6">
-          <img 
-            src="/logo.png" 
-            alt="Digital Pulse" 
-            className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-full border border-cyan-400/40 p-1"
-          />
-          <div className="text-center md:text-left">
-            <div className="inline-block px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-[11px] font-black text-cyan-300 uppercase tracking-widest mb-2">
+      {/* FOUNDER SECTION (Upgraded to Glowing Bluish Master Box with Crisp White Text) */}
+      <section id="about" className="relative z-10 px-6 py-6 max-w-5xl mx-auto">
+        <div className="relative p-6 sm:p-10 rounded-3xl bg-gradient-to-b from-slate-900/95 to-[#0b1322]/95 border border-cyan-400/50 shadow-[0_0_35px_rgba(6,182,212,0.2)] backdrop-blur-xl flex flex-col md:flex-row items-center gap-6">
+          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-white p-1 border-2 border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.6)] flex items-center justify-center shrink-0 overflow-hidden">
+            <img 
+              src="/logo.png" 
+              alt="Digital Pulse Official Seal" 
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div className="text-center md:text-left flex-1">
+            <div className="inline-block px-3.5 py-1 rounded-full bg-blue-950 border border-cyan-400/50 text-xs font-black text-cyan-300 uppercase tracking-widest mb-2 shadow-sm">
               Founder & Lead Strategist
             </div>
-            <h3 className="text-xl font-black text-white">Digital Pulse-এর লক্ষ্য ও অঙ্গীকার</h3>
-            <p className="mt-2 text-sm text-slate-300 font-medium leading-relaxed">
+            <h3 className="text-2xl font-black text-white tracking-wide drop-shadow-md">Digital Pulse-এর লক্ষ্য ও অঙ্গীকার</h3>
+            <p className="mt-3 text-sm sm:text-base text-white font-bold leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
               আধুনিক কৃত্রিম বুদ্ধিমত্তা (AI), ক্রিয়েটিভ মিডিয়া প্রোডাকশন এবং প্রিসাইজ ডেটা ম্যানেজমেন্টের সমন্বয়ে আমরা ব্যক্তি ও ব্যবসায়ের জন্য কার্যকর ডিজিটাল উপস্থিতি গড়ে তুলি। প্রতিটি প্রোজেক্টে সর্বোচ্চ নিষ্ঠা, সঠিক সময়সীমা এবং মানসম্মত সমাধান নিশ্চিত করাই আমাদের প্রধান অঙ্গীকার।
             </p>
           </div>
